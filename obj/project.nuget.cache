@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "i2ijYqaLCWuiUwiLeLc/oc1WIn/DFa3jWR9T9yZ9AXG7gb09b5S1MBcaix8XjnKGvRZrbblcKSrqsymIc/XDgg==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Faris\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\JustEnoughSickles\\JustEnoughSickles.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Faris\\.nuget\\packages\\tmodloader.codeassist\\0.1.5\\tmodloader.codeassist.0.1.5.nupkg.sha512"
+  ],
+  "logs": []
+}
