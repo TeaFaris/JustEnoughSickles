@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
 using System;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.GameContent.UI.Elements;
 using Terraria.ModLoader;
@@ -19,6 +20,8 @@ namespace JustEnoughSickles.NewContent.UI.SoulsUI
 		}
 		public void Init()
         {
+			if (SoulCounter != null)
+				SoulCounter.Remove();
 			SoulCounter = new UIImage(ModContent.Request<Texture2D>("JustEnoughSickles/NewContent/UI/SoulsUI/UI_Souls"));
 			SoulCounter.Top.Set(0f, ModContent.GetInstance<Configs.Config>().UIYPos / 1920f);
 			SoulCounter.Left.Set(0f, ModContent.GetInstance<Configs.Config>().UIXPos / 1920f);
@@ -45,6 +48,8 @@ namespace JustEnoughSickles.NewContent.UI.SoulsUI
 		}
 		public void Init()
         {
+			if (SoulBars != null)
+				new List<SoulBar>(SoulBars).ForEach(x => x.Image.Remove());
 			SoulBars = new SoulBar[Enum.GetValues<SoulType>().Length];
 			Player Player = Main.LocalPlayer;
 			for (int i = 0; i < SoulBars.Length; i++)
@@ -57,7 +62,7 @@ namespace JustEnoughSickles.NewContent.UI.SoulsUI
 		private SoulType Type;
 		private Asset<Texture2D> Texture;
 		public float Top, Left;
-		private UIImageFramed Image { get; set; }
+		public UIImageFramed Image { get; set; }
 		private new float? Height => SoulsCount / (float)ReaperPlayer.MaxSoulSize * Texture.Value.Height;
 		private float ActualHeight = 0;
 		private float Counter;
@@ -76,8 +81,8 @@ namespace JustEnoughSickles.NewContent.UI.SoulsUI
 			Texture = ModContent.Request<Texture2D>($"JustEnoughSickles/NewContent/UI/SoulsUI/UI_{Type}_Bar");
 			this.Type = Type;
 			this.Player = Player;
-			Top = TopPixel;
-			Left = LeftPixel;
+			Top = TopPixel + 38f;
+			Left = LeftPixel + 6f;
         }
 		public UIImageFramed Update(int i)
         {
@@ -90,7 +95,7 @@ namespace JustEnoughSickles.NewContent.UI.SoulsUI
 			for(Offset = 0; -Math.Pow(Offset, 2) + Height.Value >= 0; Offset += 0.01f) {  }
 
 			if (ActualHeight < Height && Height > 0 && ActualHeight >= 0)
-				ActualHeight += (float)-Math.Pow(Counter - Offset, 2) + Height.Value;
+				ActualHeight += (float)-Math.Pow(Counter - Offset, 2) + Height.Value + 1f;
 			else if (ActualHeight < 0 || Height == 0)
 			{
 				ActualHeight = 0;
@@ -105,10 +110,10 @@ namespace JustEnoughSickles.NewContent.UI.SoulsUI
 			Image.Width.Set(0f, (float)Texture.Value.Width / Main.PendingResolutionWidth);
 			Image.Height.Set(0f, (float)Texture.Value.Height / Main.PendingResolutionHeight);
 
-			if (Main.mouseX / (float)Main.PendingResolutionWidth > (Left / 1920f + 1920f / Main.PendingResolutionWidth * 33f / 1920f * i) + 134f / 1920f
-				&& Main.mouseX / (float)Main.PendingResolutionWidth < (Left / 1920f + 1920f / Main.PendingResolutionWidth * 33f / 1920f * i + Image.Width.Percent) + 134f / 1920f
+			if (Main.mouseX / (float)Main.PendingResolutionWidth > (Left / 1920f + 1920f / Main.PendingResolutionWidth * 37f / 1920f * i) + 122f / 1920f
+				&& Main.mouseX / (float)Main.PendingResolutionWidth < (Left / 1920f + 1920f / Main.PendingResolutionWidth * 37f / 1920f * i + Image.Width.Percent) + 122f / 1920f
 				&& Main.mouseY / (float)Main.PendingResolutionHeight > Top / 1920f + 1920f / Main.PendingResolutionHeight * 5f / 1920f
-				&& Main.mouseY / (float)Main.PendingResolutionHeight < (Top / 1920f + 1920f / Main.PendingResolutionHeight * 5f / 1920f) + Image.Height.Percent)
+				&& Main.mouseY / (float)Main.PendingResolutionHeight < Top / 1920f + 1920f / Main.PendingResolutionHeight * 5f / 1920f + Image.Height.Percent)
 				Main.instance.MouseText($"{SoulsCount} / {ReaperPlayer.MaxSoulSize}");
 
 			Counter += 0.01f;

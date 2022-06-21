@@ -16,6 +16,12 @@
     <None Remove="NewContent\Новая папка\**" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Remove="NewContent\Items\Tiles\Altar.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="NewContent\Items\Tiles\NewFile1.txt" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="tModLoader.CodeAssist" Version="0.1.*" />
   </ItemGroup>
 </Project>
