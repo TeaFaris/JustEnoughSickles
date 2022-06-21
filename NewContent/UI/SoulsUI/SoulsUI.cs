@@ -67,7 +67,7 @@ namespace JustEnoughSickles.NewContent.UI.SoulsUI
 		private float ActualHeight = 0;
 		private float Counter;
 		private ReaperPlayer ReaperPlayer => Main.player[Player].GetModPlayer<ReaperPlayer>();
-		public int? SoulsCount
+		public uint? SoulsCount
         {
 			get
             {

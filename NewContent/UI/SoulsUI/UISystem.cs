@@ -41,9 +41,7 @@ namespace JustEnoughSickles.NewContent.UI.SoulsUI
         {
             if (Main.gameMenu || !ModContent.GetInstance<Configs.Config>().EnableUI)
                 return true;
-            int a = ModContent.GetInstance<Configs.Config>().UIYPos;
-            int b = ModContent.GetInstance<Configs.Config>().UIXPos;
-            if (SoulBarsUI.SoulBars[0].Top != a + 38f || SoulBarsUI.SoulBars[0].Left != b + 6f)
+            if (SoulBarsUI.SoulBars[0].Top != ModContent.GetInstance<Configs.Config>().UIYPos + 38f || SoulBarsUI.SoulBars[0].Left != ModContent.GetInstance<Configs.Config>().UIXPos + 6f)
                 ModContent.GetInstance<UISystem>().SoulBarsUI.Init();
 
             StaticUI.Draw(Main.spriteBatch, new GameTime());

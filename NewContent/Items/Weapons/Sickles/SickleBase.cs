@@ -13,7 +13,7 @@ namespace JustEnoughSickles.NewContent.Items.Weapons.Sickles
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Le Sickle");
-            Tooltip.SetDefault("This is a new content sickle."); // The (English) text shown below your weapon's name.
+            Tooltip.SetDefault("This is a new content sickle.");
         }
         public override void SetDefaults()
         {
