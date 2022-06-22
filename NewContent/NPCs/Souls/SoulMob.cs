@@ -2,14 +2,14 @@
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace JustEnoughSickles.NewContent.NPCs.Souls
 {
-    public abstract class SoulMob : ModNPC
+    public abstract class SoulMob : HandledNPC
     {
-        public Player Target;
         public SoulType Type;
         public Color MainColor;
         public float MaxVelocity;
@@ -30,13 +30,7 @@ namespace JustEnoughSickles.NewContent.NPCs.Souls
             NPC.noGravity = true;
             NPC.noTileCollide = true;
             if (Target == null)
-            {
-                //foreach(Player Player in Main.player)
-                //{
-                //    new List<Item>(Player.inventory).ForEach()
-                //}
                 return;
-            }
             NPC.target = Target.whoAmI;
             Vector2 TargetPos = Target.position;
 
@@ -60,10 +54,6 @@ namespace JustEnoughSickles.NewContent.NPCs.Souls
                 NPC.velocity.Y -= MaxVelocity / 10f;
             if (TargetPos.Y > NPC.position.Y && NPC.velocity.Y < MaxVelocity)
                 NPC.velocity.Y += MaxVelocity / 10f;
-        }
-        public void SetTarget(Player Target)
-        {
-            this.Target = Target;
         }
         public override void FindFrame(int frameHeight)
         {

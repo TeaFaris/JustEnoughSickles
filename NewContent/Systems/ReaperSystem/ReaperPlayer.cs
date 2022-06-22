@@ -2,6 +2,7 @@
 using JustEnoughSickles.NewContent.NPCs.Souls;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
@@ -15,15 +16,15 @@ namespace JustEnoughSickles.NewContent.Systems.ReaperSystem
         public uint MaxSoulSize { get
             {
                 uint MaxSize = 5;
-                UsedOfferings ??= new List<OfferingBase>();
+                UsedOfferings ??= new List<Item>();
                     
-                UsedOfferings.ForEach(x => MaxSize += x.SoulsToAdd);
+                UsedOfferings.ForEach(x => MaxSize += ((OfferingBase)x.ModItem).SoulsToAdd);
                 return MaxSize;
             } 
         }
         public float PickupRange = 5;
         public uint[] Souls = new uint[Enum.GetValues(typeof(SoulType)).Length];
-        public List<OfferingBase> UsedOfferings;
+        public List<Item> UsedOfferings;
         public virtual void ModifySoul (uint Count, SoulType Type)
         {
             SoundPlayer SP = new SoundPlayer();
@@ -42,11 +43,12 @@ namespace JustEnoughSickles.NewContent.Systems.ReaperSystem
         }
         public override void SaveData(TagCompound tag)
         {
-            tag["UsedOfferings"] = UsedOfferings;
+            if(UsedOfferings != null)
+                tag.Add("UsedOfferings", UsedOfferings.Select(ItemIO.Save).ToList());
         }
         public override void LoadData(TagCompound tag)
         {
-            UsedOfferings = tag.Get<List<OfferingBase>>("UsedOfferings") ?? new List<OfferingBase>();
+            UsedOfferings = tag.GetList<TagCompound>("UsedOfferings").Select(ItemIO.Load).ToList();
         }
     }
 }

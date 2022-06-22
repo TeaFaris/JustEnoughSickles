@@ -1,4 +1,5 @@
-﻿using JustEnoughSickles.NewContent.NPCs.Souls;
+﻿using JustEnoughSickles.NewContent.NPCs;
+using JustEnoughSickles.NewContent.NPCs.Souls;
 using JustEnoughSickles.NewContent.Systems.ReaperSystem;
 using System;
 using Terraria;
@@ -58,7 +59,10 @@ namespace JustEnoughSickles.NewContent.Items.Weapons.Sickles
             Rand.Add(ModContent.NPCType<Light>());
             Rand.Add(ModContent.NPCType<Shadow>());
             // It's govnocode time
-            ((SoulMob)Main.npc[NPC.NewNPC(NPC.GetSource_NaturalSpawn(), (int)target.Top.X, (int)target.Top.Y, Rand.Get())].ModNPC).SetTarget(player);
+
+            ((HandledNPC)HandledNPC.HandledSpawnNPC(Rand.Get(), (int)target.position.X, (int)target.position.Y).ModNPC).SetTarget(player);
+
+            //((SoulMob)Main.npc[NPC.NewNPC(NPC.GetSource_NaturalSpawn(), (int)target.Top.X, (int)target.Top.Y, Rand.Get())].ModNPC).SetTarget(player);
         }
     }
 }

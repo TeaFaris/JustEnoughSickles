@@ -1,6 +1,7 @@
 using JustEnoughSickles.NewContent.Items.Materials;
 using JustEnoughSickles.NewContent.Items.Offerings;
 using JustEnoughSickles.NewContent.Systems.ReaperSystem;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
@@ -10,6 +11,7 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
+using System.Collections.Generic;
 
 namespace JustEnoughSickles.NewContent.Items.Tiles
 {
@@ -47,28 +49,23 @@ namespace JustEnoughSickles.NewContent.Items.Tiles
         public override bool RightClick(int i, int j)
         {
 			ReaperPlayer Player = Main.LocalPlayer.GetModPlayer<ReaperPlayer>();
-			OfferingBase Offering = null;
-			int? Index = null;
+			Dictionary<int, Item> Offerings = new Dictionary<int, Item>();
 
 			for(int a = 0; a < Player.Player.inventory.Length; a++)
-            {
 				if (Player.Player.inventory[a].ModItem is OfferingBase)
-				{
-					Offering = (OfferingBase)Player.Player.inventory[a].ModItem;
-					Index = a;
-					break;
-				}
-			}	
+					Offerings.Add(a, Player.Player.inventory[a]);
 
-			if (Offering == null || Index == null)
+			if (Offerings.Count <= 0)
 				return false;
 
-			if (Player.UsedOfferings.Contains(Offering))
-				return false;
+			foreach (int Offering in Offerings.Keys)
+				if (Player.UsedOfferings.Any(x => x.Name == Offerings.GetValueOrDefault(Offering).Name))
+					Offerings.Remove(Offering);
 
 			new SoundPlayer().Play(SoundID.Zombie53);
-			Player.UsedOfferings.Add(Offering);
-			Player.Player.inventory[Index.Value] = Main.item[Player.Player.QuickSpawnItem(new EntitySource_ItemUse(Player.Player, Offering.Item), ModContent.ItemType<Uranium>())];
+			Player.UsedOfferings.AddRange(Offerings.Values);
+			foreach(int Offering in Offerings.Keys)
+				Player.Player.inventory[Offering] = Main.item[Player.Player.QuickSpawnItem(new EntitySource_ItemUse(Player.Player, Offerings.GetValueOrDefault(Offering)), ItemID.Coal)];
 
 			return true;
         }
